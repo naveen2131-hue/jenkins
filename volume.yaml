@@ -1,0 +1,29 @@
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: jenkins-pv-volume
+  namespace: devsecops
+provisioner: kubernetes.io/azure-file
+mountOptions:
+  - dir_mode=0754
+  - file_mode=0754
+  - uid=1000
+  - gid=1000
+  - mfsymlinks
+  - cache=strict
+  - actimeo=30
+#  persistentVolumeReclaimPolicy: Retain
+parameters:
+  skuName: Standard_LRS
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: jenkins-pv-claim
+  namespace: devsecops
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: jenkins-pv-volumee
+  resources:
+    requests:
+      storage: 1Gi

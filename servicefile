@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: jenkins-service
+  namespace: devsecops
+  annotations:
+      service.beta.kubernetes.io/azure-allowed-service-tags: 13.126.136.66/32,49.207.184.89/32,122.165.56.83/32,49.249.62.154/32,113.193.127.238/32,125.18.82.18/3,0.0.0.0/02
+      prometheus.io/scrape: 'true'
+      prometheus.io/path:   /
+      prometheus.io/port:   '8080'
+spec:
+  selector:
+    app: jenkins-server
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      targetPort: 8080
+      nodePort: 32000
